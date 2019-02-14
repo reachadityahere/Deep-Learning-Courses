@@ -1,6 +1,10 @@
 This repository contains my solutions for all courses in the Deep Learning Specialization by Andrew Ng on Coursera.
 https://www.coursera.org/specializations/deep-learning
-This repository contains blank notebooks for each course along with my solutions in the downloaded directories.
+
+The MichealNielsonBook folder contains Python3 version of DeepLearning scripts from his excellent book at 
+www.neuralnetworksanddeeplearning.com
+
+This repository also contains blank notebooks for each course along with my solutions in the respective directories.
 You can replace the filled notebooks with empty ones and run a jupyter server to practise.
 All images and codes have been checked for compilation.
 
