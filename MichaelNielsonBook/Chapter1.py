@@ -28,13 +28,13 @@ def load_mnist_data():
 
 def onehot(x, nb_classes):
     targets = x.reshape(-1)
-    return np.eye(nb_classes)[targets]
+    return np.eye(nb_classes)[targets].flatten()
 
-def one_hot(x, nb_classes):
-    print(x.shape)
-    y = onehot(x, nb_classes)
-    print(y.shape)
-    return y
+def sigmoid(z):
+        return (1 / (1.0 + np.exp(-z)))
+
+def sigmoid_derivative(z):
+        return sigmoid(z)*(1-sigmoid(z))
 
 class Network(object):
     def __init__(self, sizes):#sizes is list of layer sizes
@@ -48,15 +48,10 @@ class Network(object):
     def feedforward(self, a):
         #n - 1 matrices for n layers because input layer has no weights and biases
         for current_layer in range(self.num_layers - 1):
+            print(a.shape)
             z = self.weights[current_layer].dot(a) + self.biases[current_layer]
             z = sigmoid(z)
         return z
-
-    def sigmoid(z):
-        return (1 / (1.0 + np.exp(-z)))
-
-    def sigmoid_derivative(z):
-        return sigmoid(z)*(1-sigmoid(z))
 
     def update_mini_batch(self, mini_batch, alpha):
         delta_w = np.zeros_like(self.weights)
@@ -110,11 +105,10 @@ class Network(object):
         for b, w in zip(self.biases, self.weights):
             z = np.dot(w, activation)+b
             zs.append(z)
-            activation = self.sigmoid(z)
+            activation = sigmoid(z)
             activations.append(activation)
         # backward pass
-        delta = self.cost_derivative(activations[-1], y) * \
-            sigmoid_derivative(zs[-1])
+        delta = self.cost_derivative(activations[-1], y) * sigmoid_derivative(zs[-1])
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
         # Note that the variable l in the loop below is used a little
@@ -123,7 +117,7 @@ class Network(object):
         # second-last layer, and so on.  It's a renumbering of the
         # scheme in the book, used here to take advantage of the fact
         # that Python can use negative indices in lists.
-        for l in xrange(2, self.num_layers):
+        for l in range(2, self.num_layers):
             z = zs[-l]
             sp = sigmoid_derivative(z)
             delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
@@ -152,7 +146,8 @@ test_data = list(test_data)
 training_data = list(training_data)
 validation_data = list(validation_data)
 net = Network([784, 30, 10])
-net.SGD(training_data, 30, 10, 3.0, test_data = test_data)
+# net.SGD(training_data, 30, 10, 3.0, test_data = test_data)
+net.SGD(training_data, 30, 10, 3.0, test_data = training_data)
 print("test")
             #TODO: Change initialization to random.random
             #TODO: Play with mini_batch_size, set as 1
