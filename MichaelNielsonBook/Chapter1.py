@@ -133,9 +133,9 @@ training_data, validation_data, test_data = load_mnist_data()
 test_data = list(test_data)
 training_data = list(training_data)
 validation_data = list(validation_data)
-net = Network([784, 30, 10])
+net = Network([784, 100, 10])
 # net.SGD(training_data, 30, 10, 3.0)
-net.SGD(training_data, 30, 10, 3.0, test_data = test_data)
+net.SGD(training_data, 10, 10, 2, test_data = test_data)
 print("test")
             #TODO: Change initialization to random.random
             #TODO: Play with mini_batch_size, set as 1
